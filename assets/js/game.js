@@ -125,7 +125,30 @@ var startGame = function() {
 var endGame = function() {
     // if player is still alive, player wins!
     if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
+        window.alert("Great job, you've survived the game! Let's see how you did.");
+
+        // check localStorage for high score, if it's not there, use 0
+        var highScore = localStorage.getItem("highscore");
+         //if (highscore === null) {   highscore = 0; 
+             // OR
+             highScore = highScore || 0;
+            
+        
+
+        // if player has more money than the high score, player has new high score
+        // note we are just comparing to a variable that's pulling data from localStorage
+        if (playerInfo.money > highScore) {
+            localStorage.setItem("highscore", playerInfo.money);
+            localStorage.setItem("name", playerInfo.name);
+            
+            // If current high score is higher, send message to player indicating they did not beat the high score
+            alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+        }
+        // if session score is higher, send message to player indicating they beat the high score
+        else {
+            alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
+        }
+        
     }
     else {
         window.alert("You've lost your robot in battle.");
